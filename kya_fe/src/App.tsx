@@ -1,42 +1,28 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import { fetchCalendarItems } from 'http://localhost:3001/character';
-
+import RoutesPath from './routers/RoutesPath'
+import Navbar from './components/navbar/Navbar'
+import { ThemeProvider } from '@emotion/react/macro'
+import { theme } from './config/theme';
+import { useTheme, Box } from '@mui/material';
+import HeaderBG from './components/navbar/HeaderBG'
+import Container from '@mui/material/Container';
 
 function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
-
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
-  useEffect(() => {
-    fetch("http://localhost:3001/character")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])
-
-    return (
-      <ul>
-        {items.map((item) => (
-          <li key={item.name}/>
-        ))}
-      </ul>
-    );
-  }
-
+  const theme=useTheme();
+  return (
+      <Container>
+        <Box>
+          <HeaderBG/>
+          <Navbar />
+        </Box>
+        <Box mt={4}>
+            <RoutesPath />
+        </Box>
+      </Container>
+  )
+}
 
 export default App
